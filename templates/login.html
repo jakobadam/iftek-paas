@@ -1,0 +1,40 @@
+{% extends 'base.html'%}
+{% block title %}Velkommen{% endblock %}
+{% block description %}Iftekskyen hosting i skyen.{% endblock%}
+{% block body %}
+{% from "_formhelpers.html" import render_fields %}
+<div class="grid_6 alpha">
+  <div class="greybox clearfix ">
+    <form name="login" method="POST">
+        <h3 class="formheader">
+          Log ind
+        </h3>
+      {{ render_fields(form) }}
+    </form>
+    <div class="formfieldhelpleft">
+      Er du ikke oprettet?
+      <a href="{{signuplink}}">
+        Registrer dig
+      </a>
+    </div>
+  </div>
+</div>
+<div class="grid_3 omega">
+	<div class="greyborder ">
+        <p>Iftek-skyen er din mulighed for at gøre dine web-applikationer
+        tilgængelige for hele verden.</p>
+
+    	<form action="{{signuplink}}" class="clearfix">
+            <input type="submit" value="Register nu &hellip;" >
+        </form>
+	</div>
+
+	<div class="greyborder" style="margin-top:10px;">
+        <p><em>Bemærk: Skyen er i første omgang kun tilgængelig for elever på Egå Gymnasium. </em></p>
+	</div>
+
+</div>
+
+{% endblock %}
+{% block script %}
+{% endblock %}

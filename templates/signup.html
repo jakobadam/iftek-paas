@@ -1,0 +1,27 @@
+{% extends 'base.html'%}
+{% from "_formhelpers.html" import render_fields %}
+{% block title %}Oprettelse i iftek-skyen{% endblock %}
+{% block description %}Oprettelse i iftek-skyen{% endblock%}
+
+
+{% block body %}
+<h1>Opret dig i iftek-skyen</h1>
+
+<div class="grid_6 alpha">
+  <div class="greybox clearfix">
+    <form name="signup" method="POST">
+      {{ render_fields(form) }}
+    </form>
+
+    <div class="formfieldhelpleft">
+      Har du allerede en konto? sejt
+       <a href="{{login_url}}servers">kom indenfor</a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}

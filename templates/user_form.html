@@ -1,0 +1,16 @@
+{% extends 'base.html'%}
+
+{% block title %}Edit User{% endblock %}
+{% block body %}
+{% from "_formhelpers.html" import render_fields %}
+<h1>Edit Information</h1>
+<div class="grid_4 greybox alpha">
+
+  <form method="post" action="" >
+    <dl>
+      {{ render_fields(form) }}
+    </dl>
+  </form>
+</div>
+{% endblock %}
+

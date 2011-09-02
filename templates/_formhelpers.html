@@ -1,0 +1,39 @@
+{% macro render_field(field, docsuid=None) %}
+<div id="{{field.id}}-wrapper"
+     {%- if 'hidden' in field.flags -%}
+     style="display: none"
+     {%- endif -%}>
+  {% if field.type not in ('HiddenField', 'SubmitField') %}
+  <div class="formfielddesc">
+    {{ field.label.text | safe }}
+  </div>
+  {% if field.description %}
+  <div class="formfieldhelp">
+    {{ field.description | safe }}
+  </div>
+  {% endif %}
+  {%- if docsuid %}
+  <a href="//docs.irigo.com/topics/{{docsuid}}" rel="help"
+     target="_blank" class="irigo-tooltip">help</a>
+  {%- endif %}
+  {% endif %}
+
+  {{ field(**kwargs)|safe }}
+
+  {% if field.errors %}
+    <div class="form-errors">
+      {% for error in field.errors %}
+      <div class="form-error">
+        {{ error }}
+      </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
+{% endmacro %}
+
+{% macro render_fields(form) %}
+{% for field in form %}
+  {{ render_field(field, tabindex=1) }}
+{% endfor %}
+{% endmacro %}

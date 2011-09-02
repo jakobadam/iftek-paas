@@ -1,0 +1,8 @@
+Hej {{user.username}},
+
+For at aktivere din konto, så skal du verificere din mail adresse ved at gå til det følgende link:
+
+{{link}}
+
+See i skyen
+

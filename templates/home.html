@@ -1,0 +1,12 @@
+{% extends 'base.html'%}
+{% block title %}Skyen{% endblock %}
+{% block description %}{% endblock%}
+{% block body %}
+  <h3>Hej {{user.username}}</h3>
+  <p>Du har nu adgang til de følgende tjenester:</p>
+  <ul>
+      <li>Oversigt over dine databaser: <a href="http://193.200.45.133/phpmyadmin">phpmyadmin</a></li>
+      <li><a href="http://193.200.45.133/~{{user.username}}">Dit applikations bibliotek</a></li>
+      <li><a href="ftp://jakob@193.200.45.133/">FTP</a></li>
+  </ul>
+{% endblock %}
