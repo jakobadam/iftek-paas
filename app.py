@@ -5,7 +5,7 @@ import logging
 from logging.handlers import SMTPHandler
 
 from flask import Flask
-app = Flask('control')
+app = Flask('paas')
 
 site_root = os.path.dirname(os.path.abspath(__file__))
 
