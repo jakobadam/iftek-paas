@@ -75,7 +75,10 @@ def setup_app():
 
     # php in userdir.
     run("cp %(root)s/app/conf/php5.conf /etc/apache2/mods-available" % env)
-    
+
+    run("cp %(root)s/app/conf/iftek /etc/apache2/sites-available" % env)
+    run("a2ensite iftek")
+
 def setup():
     """
     Set up (bootstrap) a new server.
