@@ -77,6 +77,7 @@ def signup():
 
     user = User()
     form.populate_obj(user)
+    passwd = form.password.data # un-encrypted
 
     if server.user_check(user.username):
         flash(u"Desværre - det brugernavn er ikke ledigt", 'error')
@@ -90,12 +91,12 @@ def signup():
 
     db.session.add(user)
     db.session.add(token)
-    server.user_create( user.username, passwd=form.password.data)
+    server.user_create( user.username, passwd=passwd)
 
     # FIXME: move into user home page
     dbname = "%s.%s" % (user.username, 'blog')
     
-    server.db_create_user(user.username, form.password)
+    server.db_create_user(user.username, passwd)
     server.db_create_database(dbname, user.username)
 
     db.session.commit()
