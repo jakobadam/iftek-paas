@@ -2,6 +2,9 @@ import commands
 import string
 import random
 import crypt
+import app
+
+from models import db
 
 def sudo(command):
     error, output = commands.getstatusoutput("sudo %s" % command)
@@ -10,6 +13,24 @@ def sudo(command):
     return output
 
 # From: https://github.com/sebastien/cuisine/blob/master/src/cuisine.py
+
+# FIXME: validate username passwd in form
+
+def db_create_user(username, passwd):
+    if app.config['MODE'] != 'production':
+        return
+    db.session.execute("CREATE USER '%s'@'%' IDENTIFIED BY  '%s';" % (username, passwd))
+
+def db_create_database(dbname, username):
+    if app.config['MODE'] != 'production':
+        return
+
+    stms = [
+        "CREATE database %s;" % (dbname),
+        "GRANT USAGE ON  *.* TO '%s'@'%';" % (username),
+        "GRANT ALL PRIVILEGES ON  `%s` . * TO  '%s'@'%';" % (dbname, username)
+    ]
+    db.session.execute(''.join(stms))
 
 def user_create( name, passwd=None, home=None, uid=None, gid=None, shell=None, uid_min=None, uid_max=None):
 	"""Creates the user with the given name, optionally giving a specific password/home/uid/gid/shell."""
