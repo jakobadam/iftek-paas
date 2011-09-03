@@ -26,7 +26,7 @@ def db_create_database(dbname, username):
         return
 
     stms = [
-        "CREATE database %s;" % (dbname),
+        "CREATE database `%s`;" % (dbname),
         "GRANT USAGE ON  *.* TO '%s'@'%%';" % (username),
         "GRANT ALL PRIVILEGES ON  `%s` . * TO  '%s'@'%%';" % (dbname, username)
     ]
@@ -98,4 +98,5 @@ def user_ensure( name, passwd=None, home=None, uid=None, gid=None, shell=None):
 			sudo("usermod %s '%s'" % (" ".join(options), name))
 
 if __name__ == '__main__':
-    print user_check('dam')
+    db_create_database('dbname', 'jakob')
+    # print user_check('dam')
