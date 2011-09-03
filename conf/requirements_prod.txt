@@ -2,6 +2,7 @@ Flask==0.7.2
 Flask-SQLAlchemy==0.15
 Flask-WTF==0.5.2
 Jinja2==2.6
+MySQL-python==1.2.3
 SQLAlchemy==0.7.2
 WTForms==0.6.3
 WebOb==0.9
