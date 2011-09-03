@@ -41,7 +41,7 @@ def setup_webserver():
         "apache2 "
         "apache2-mpm-worker "
         "libapache2-mod-wsgi "
-        "libapache2-mod-php "
+        "libapache2-mod-php5 "
         "webmin "
         "vsftpd "
         "mysql-server-5.1 "
