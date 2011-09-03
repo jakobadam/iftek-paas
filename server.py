@@ -2,7 +2,7 @@ import commands
 import string
 import random
 import crypt
-import app
+from app import app
 
 from models import db
 
