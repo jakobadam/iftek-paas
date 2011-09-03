@@ -1,9 +1,7 @@
 <VirtualHost *:80>
 
-        WSGIScriptAlias /a/ /srv/www/iftek-paas/app/paas.wsgi
-
         Alias /a/static/ /srv/www/iftek-paas/app/static/
-
+        WSGIScriptAlias /a /srv/www/iftek-paas/app/paas.wsgi
         RedirectMatch ^/$ /a/
 
         <Location /a/static >
