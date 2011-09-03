@@ -19,7 +19,7 @@ def sudo(command):
 def db_create_user(username, passwd):
     if app.config['MODE'] != 'production':
         return
-    db.session.execute("CREATE USER '%s'@'%' IDENTIFIED BY  '%s';" % (username, passwd))
+    db.session.execute("CREATE USER '%s'@'%%' IDENTIFIED BY  '%s';" % (username, passwd))
 
 def db_create_database(dbname, username):
     if app.config['MODE'] != 'production':
@@ -27,8 +27,8 @@ def db_create_database(dbname, username):
 
     stms = [
         "CREATE database %s;" % (dbname),
-        "GRANT USAGE ON  *.* TO '%s'@'%';" % (username),
-        "GRANT ALL PRIVILEGES ON  `%s` . * TO  '%s'@'%';" % (dbname, username)
+        "GRANT USAGE ON  *.* TO '%s'@'%%';" % (username),
+        "GRANT ALL PRIVILEGES ON  `%s` . * TO  '%s'@'%%';" % (dbname, username)
     ]
     db.session.execute(''.join(stms))
 
