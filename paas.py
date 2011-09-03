@@ -28,8 +28,8 @@ context_processors.add() # injects users
 PASSWORD_RECOVERY_VALIDITY = datetime.timedelta(days=2)
 DEBUG = config.get('DEBUG')
 
-ALLOWED_EMAILS = ['jakob.a.dam@gmail.com', 'jmahle4u@gmail.com']
-ALLOWED_DOMAINS = ['']
+# ALLOWED_EMAILS = ['jakob.a.dam@gmail.com', 'jmahle4u@gmail.com']
+ALLOWED_DOMAINS = ['cs.au.dk', 'egaa-gym.dk']
 
 @app.before_request
 def before_request():
