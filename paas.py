@@ -92,6 +92,12 @@ def signup():
     db.session.add(token)
     server.user_create( user.username, passwd=form.password.data)
 
+    # FIXME: move into user home page
+    dbname = "%s.%s" % (user.username, 'blog')
+    
+    server.db_create_user(user.username, form.password)
+    server.db_create_database(dbname, user.username)
+
     db.session.commit()
     
     link = '%s?token=%s' % (url_for(verify.__name__, _external=True), token.token)
