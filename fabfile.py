@@ -4,7 +4,7 @@ from fabric.api import env, cd, sudo, put, run, settings
 
 env.hosts = ['193.200.45.133']
 env.user = 'root'
-env.root = "/srv/www/iftek-pass" # reflected in apache.conf and nginx.conf
+env.root = "/srv/www/iftek-paas" # reflected in apache.conf and nginx.conf
 env.activate = "source %(root)s/env/bin/activate" % env
 
 def deploy():
@@ -41,35 +41,40 @@ def setup_webserver():
         "apache2 "
         "apache2-mpm-worker "
         "libapache2-mod-wsgi "
+        "libapache2-mod-php "
         "webmin "
         "vsftpd "
         "mysql-server-5.1 "
         "python-dev "
         "python-setuptools "
         "libmysqlclient-dev "
+        "php5 "
+        "phpmyadmin "
         "git-core "
         )
     run("a2enmod userdir php5")
-    run("cp %(root)s/app/conf/php5.conf /etc/apache2/mods-available" % env)
     run("mkdir -p /etc/skel/public_html")
     
 def setup_app():
-    run("mkdir -p %(root)s" % env)
+    run("mkdir -p %(root)s/app" % env)
+
+    # Check out 
+    with cd("%(root)s" % env):
+        run("rm -rf app")
+        run("git clone git://github.com/jakobadam/iftek-paas.git app")
 
     # make it possible to run user* stuff without password
     run("chmod 660 /etc/sudoers")
-    run("rm /etc/sudoers")
-    run("cp %(root)s/app/conf/sudoers /etc/sudoers" % env)
-    run("chmod 220 /etc/sudoers")
+    run("cat %(root)s/app/conf/sudoers > /etc/sudoers" % env)
+    run("chmod 440 /etc/sudoers")
     
     # create python virtualenv
     run("easy_install virtualenv")
     run("virtualenv %(root)s/env" % env)
     virtualenv("%(root)s/env/bin/pip install -U pip" % env)
 
-    # Check out Control
-    with cd("%(root)s" % env):
-        run("git clone http://?")
+    # php in userdir.
+    run("cp %(root)s/app/conf/php5.conf /etc/apache2/mods-available" % env)
     
 def setup():
     """
@@ -79,6 +84,5 @@ def setup():
     run("aptitude update")
     setup_webserver()
     setup_app()
-
     deploy()
 
