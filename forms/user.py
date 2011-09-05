@@ -8,6 +8,7 @@ import models
 
 from flaskext.wtf import TextField
 from flaskext.wtf import Required
+from flaskext.wtf import Regexp
 from flaskext.wtf import SubmitField
 from flaskext.wtf import PasswordField
 from flaskext.wtf import Form
@@ -17,6 +18,7 @@ from flaskext.wtf.html5 import EmailField
 
 from wtforms.validators import ValidationError
 
+
 class UserForm(Form):
 
     email = EmailField('E-mail adresse',
@@ -25,10 +27,13 @@ class UserForm(Form):
                        )
 
     username = TextField('Brugernavn',
-                         [Required(u'Kammerat, du skal vælge et brugernavn!')]
-                         )
+                         [
+            Required(u'Kammerat, du skal vælge et brugernavn!'),
+            Regexp(r'^[a-zA-Z]+$', message=u'Brugernavnet skal bestå af bogstaver!')
+            ])
 
     password = PasswordField('Kodeord', [Required('Du mangler at indtaste et kodeord')],)
+    password2 = PasswordField('Gentag kodeord', [Required(u'Du mangler at bekræfte kodeord')],)
 
     submit = SubmitField('Registrer')
 
@@ -45,4 +50,10 @@ class UserForm(Form):
             raise ValidationError(u"Koden skal være mindst 6 karakterer.")
         # For an easy strength checker see:
         # http://passwordadvisor.com/CodePython.aspx
+
+    def validate_password2(self, field):
+        """Ensure the strength of the password.
+        """
+        if self.password.data != field.data:
+            raise ValidationError(u"Koder matcher ikke.")
 

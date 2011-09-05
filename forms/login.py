@@ -21,8 +21,9 @@ class LoginForm(Form):
                        )
 
     password = PasswordField('Kodeord',
-                         [Required('Indtast et kodeord')],
-                         description='<a href="/reset-password">Har du glemt koden?</a>')
+                         [Required('Indtast et kodeord')]
+# ,description='<a href="/reset-password">Har du glemt koden?</a>'
+)
 
     login = SubmitField('Luk mig ind')
 
