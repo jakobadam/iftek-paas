@@ -144,6 +144,7 @@ class ValidationTokens(db.Model, Model):
     token = Column(String(32), nullable=False, default=lambda: uuid.uuid4().hex)
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     type = Column(Enum(*TYPES), nullable=False)
+    password = Column(String(32))
 
     def __unicode__(self):
         return self.token.decode('ascii')

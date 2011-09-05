@@ -6,31 +6,36 @@ from app import app
 
 from models import db
 
-def sudo(command):
-    error, output = commands.getstatusoutput("sudo %s" % command)
+def run(command):
+    error, output = commands.getstatusoutput("%s" % command)
     if error:
         raise Exception(output)
     return output
+
+def sudo(command):
+    return run("sudo %s" % command)
+
+def db_execute(db, name, passwd, sql):
+    sql = sql.replace('`', '\\`')
+    cmd = """echo "%s" | mysql %s -u %s --password=%s""" % (sql, db, name, passwd) 
+    run(cmd)
 
 # From: https://github.com/sebastien/cuisine/blob/master/src/cuisine.py
 
 # FIXME: validate username passwd in form
 
 def db_create_user(username, passwd):
-    if app.config['MODE'] != 'production':
-        return
-    db.session.execute("CREATE USER '%s'@'%%' IDENTIFIED BY  '%s';" % (username, passwd))
+    sql = "CREATE USER '%s'@'%%' IDENTIFIED BY  '%s';" % (username, passwd)
+    db.session.execute(sql)
 
 def db_create_database(dbname, username):
-    if app.config['MODE'] != 'production':
-        return
-
     stms = [
         "CREATE database `%s`;" % (dbname),
         "GRANT USAGE ON  *.* TO '%s'@'%%';" % (username),
         "GRANT ALL PRIVILEGES ON  `%s` . * TO  '%s'@'%%';" % (dbname, username)
     ]
-    db.session.execute(''.join(stms))
+    sql = ''.join(stms)
+    db.session.execute(sql)
 
 def user_create( name, passwd=None, home=None, uid=None, gid=None, shell=None, uid_min=None, uid_max=None):
 	"""Creates the user with the given name, optionally giving a specific password/home/uid/gid/shell."""

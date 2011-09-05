@@ -87,17 +87,12 @@ def signup():
         flash(u"Desværre - kun mail adresser fra Egå gymnasium er understøttet", 'error')
         return render_template('signup.html', form=form)
 
-    token = ValidationTokens(user=user, type=ValidationTokens.CREATE_USER)
+    token = ValidationTokens(user=user, 
+                             type=ValidationTokens.CREATE_USER,
+                             password=passwd)
 
     db.session.add(user)
     db.session.add(token)
-    server.user_create( user.username, passwd=passwd)
-
-    # FIXME: move into user home page
-    dbname = "%s.%s" % (user.username, 'blog')
-    
-    server.db_create_user(user.username, passwd)
-    server.db_create_database(dbname, user.username)
 
     db.session.commit()
     
@@ -147,13 +142,24 @@ def verify():
     
     response = redirect(request.script_root)
     if token:
+        user = token.user
         token.user.status = User.STATUS_ACTIVE
 
-        db.session.add(token.user)
+        db.session.add(user)
+
+        server.user_create( user.username, passwd=token.password)
+        dbname = "%s.%s" % (user.username, 'blog')
+    
+        server.db_create_user(user.username, token.password)
+        server.db_create_database(dbname, user.username)
+
+        sql = render_template('sql/blog.sql')
+        server.db_execute(dbname, user.username, token.password, sql)
+
         db.session.delete(token)
         db.session.commit()
 
-        session['username'] = token.user.email
+        session['username'] = user.email
 
         flash("Sejt, din konto er nu aktiveret.")
     else:
