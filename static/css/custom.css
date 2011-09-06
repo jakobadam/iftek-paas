@@ -67,17 +67,6 @@ a.icon{
 	padding:6px;
 }
 
-.next a{
-	background: url(../img/icons/next.png) no-repeat right	center;
-	padding-right:16px;
-}
-
-.previous a {
-	background: url(../img/icons/previous.png) no-repeat left	center;
-	padding-left:16px;
-	padding-right:10px;
-}
-
 .search-form input[type=text]{
     style:float:left;
     width:159px;
@@ -190,31 +179,6 @@ time{
     color:#777;
 }
 
-/* nav{ */
-/*     background-color: #59BEDD; */
-/*     letter-spacing: 1px; */
-/* } */
-/* nav a{ */
-/*     display:block; */
-/*     color:white; */
-/*     font-weight: bold; */
-/*     text-transform: uppercase;  */
-/*     text-decoration: none; */
-/*     padding: 7px; */
-/* } */
-/* nav ul{ */
-/*     list-style: none; */
-/* } */
-/* nav li{ */
-/*     width: 150px; */
-/*     text-align:center; */
-/*     float: left; */
-/*     background: none; */
-/* } */
-/* nav a:hover{ */
-/*     color: #7F7F7F; */
-/* } */
-
 .admin{
     margin-top: 10px;
     margin-bottom:10px;
@@ -228,8 +192,6 @@ time{
     background-color: #FFF;
     padding-top:10px;
 }
-
-
 
 .form-errors {
     border-bottom-left-radius: 6px 6px;
@@ -249,25 +211,10 @@ time{
     padding: 0;
 }
 
-/*DOJO - TUNDRA STUFF. FIXING F******G CSS MADE IN HELL */
-.tundra *,
-.tundra a:focus {
-	outline:none;
-	outline-style:none!important;
-}
-
-
-/*TOOLTIP*/
-.tundra .dijitTooltipContainer {
-    font-family:helvetica, arial, sans-serif!important;
-}
-
-.irigo-tooltip {
-	
-}
 .dijitInline {
 	margin:4px 2px;
 }
+
 .tundra .dijitButtonNode {
 	background: none transparent;
     border-color:transparent transparent transparent transparent ;
@@ -276,202 +223,21 @@ time{
     /*padding: 0.1em 0.2em 0.2em;	*/	
 }
 
-/*STATS*/
-.tundra .dojoxGridScrollbox {
-	overflow:hidden;	
-}
-
-.tundra .dojoxGridHeader {
-	background: #f0f0f0;
-	color:#474747!important;	
-	white-space:nowrap;
-}
-
-.tundra .dojoxGridCell {
-    border-style: solid;
-}
-
-.tundra .dojoxGridCellOver,
-.tundra .dojoxGridCellFocus {
-    border-style:solid!important;
-    border-color:#e3e3e3!important;
-
-}
-
-.tundra .dojoxGridHeader .dojoxGridCell,
-.tundra .dojoxGridHeader .dojoxGridCellFocus,
-.tundra .dojoxGridHeader .dojoxGridCellOver {
-   background: none transparent;
-    border-color: transparent #e3e3e3 #e3e3e3 transparent;
-    border-width: 0 2px 2px 0!important;
-    color: #474747!important;
-    padding-bottom: 0;
-    padding:6px;
-}
-
-.tundra .dojoxGridRowTable .dojoxGridCell{
-
-    background: none repeat scroll 0 0 transparent;
-    border-color: transparent #E3E3E3 #E3E3E3 transparent;
-    border-width: 0 2px 0px 0 !important;
-    color: #474747 !important;
-    padding: 6px;
-}
-
-.tundra .dojoxGridRowOver,
-.tundra .dojoxGridRowOver .dojoxGridCell {
-	background-color: transparent;
-}
-
-
-.tundra .dojoxGrid {
-    font-size: inherit;
-   	font-family: Helvetica,arial,sans-serif;
-   	color:#777;
-   	border:2px solid #e3e3e3;
-    -webkit-border-radius: 12px;
-    -moz-border-radius: 12px;
-    -o-border-radius: 12px;
-    border-radius: 12px;   	
-}
-
-.dojoxGridRow {
-	position: relative;
-    width: 460px;
-}
-
-.tundra .dojoxGridRowSelected {
-   background-color: Transparent !important;
-}
-
-.dialogs body{
-	background-color:transparent!important;	
-}
-
-
-
-/*DOJO DIALOGS*/
-.dijitDialogUnderlay {
-	background:black;
-	opacity:0.85;
-	filter: alpha(opacity=85);
-	-moz-opacity: 0.85;
-}
-
-.tundra .dijitDialog {
-	font-family: Helvetica,arial,sans-serif;
-   	color:#777;
-   	border:2px solid #e3e3e3;
-    -webkit-border-radius: 12px;
-    -moz-border-radius: 12px;
-    -o-border-radius: 12px;
-    border-radius: 12px; 	
-}
-.tundra .dijitDialogPaneContent,
-.tundra .dijitDialogTitleBar {
-	background: none transparent;	
-}
-/*BUTTONS IN DIALOG*/
-.tundra .dijitDialog .dijitButtonNode {
-	background: #BBB url(../img/buttonbgdark.png) repeat-x 0px 50%;
-	border-color: #e3e3e3;
-	float:left;
-	 -webkit-border-radius: 6px 6px;
-    -moz-border-radius: 6px 6px;
-    -o-border-radius: 6px 6px;
-    border-radius: 6px 6px;
-    
-    border-style: solid;
-    border-width: 1px;
-    color: white;
-    font-size: inherit;
-    font-weight: bold;
-    line-height: inherit;
-    padding: 0.2em 1em !important;
-    margin-top: 6px;
-    text-decoration: none;
-    
-    width: auto;
-    cursor:pointer;
-}
-
-.tundra .dijitButtonHover .dijitButtonNode,
-.tundra .dijitButtonNodeHover,
-.tundra .dijitToggleButtonHover .dijitButtonNode,
-.tundra .dijitDropDownButtonHover .dijitButtonNode,
-.tundra .dijitComboButton .dijitButtonContentsHover,
- {
-	border-color: #E3e3e3;
-	border-bottom-color:#e3e3e3;
-	color:#FFF;
-	background-color: #39B54A;
-
-}
-
-
-
-
-html.dialogs   {
-	overflow-y:auto;	
-}
-#dialog h3,
-#dialog h2 a,
-.dialogs h3, 
-.dialogs h2 a {
-    float: none;
-    clear:both;
-}
-
-/*Search*/
-#search_info {
-		
-}
-
-/* dojo overwrite */
-.slideShowImageWrapper{
-    margin-top: -20px;
-}
-
-.slideShowNav {
-    top: 0;
-}
-
-.slideShowCtrl {
-    top: 10px;
-}
-
 .greyborder {
-border: 1px #E3e3e3 solid;
-background:#FFF;
-    -moz-box-shadow: 0 0 80px rgba(1, 1, 1, 0.3);
-	-webkit-box-shadow: 0 0 80px rgba(1, 1, 1, 0.3);
-	box-shadow: 0 0 80px rgba(1, 1, 1, 0.3);
-
-/* reduce the 10px border from 960 to make space for the border */
-/* margin:7px; */
-/* rounded corners */
-/*-webkit-border-radius: 24px;
--moz-border-radius: 24px;
--o-border-radius: 24px;
-border-radius: 24px;*/padding:10px;
-
-/* drop shadow */
-    /* -moz-box-shadow: 1px 1px 2px #777; */
-	/* -webkit-box-shadow: 1px 1px 2px #777; */
-	/* box-shadow: 1px 1px 2px #777; */
-	/* -o-box-shadow:1px 1px 2px #777; */
-	/* For IE 8 */
-	-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=2, Direction=135, Color='#777777')";
-	/* /\* For IE 5.5 - 7 *\/ */
-	/* filter: progid:DXImageTransform.Microsoft.Shadow(Strength=2, Direction=135, Color='#77 */
+  padding: 10px;
+  border: 1px #E3e3e3 solid;
+  background:#FFF;
+  -moz-box-shadow: 0 0 80px rgba(1, 1, 1, 0.3);
+  -webkit-box-shadow: 0 0 80px rgba(1, 1, 1, 0.3);
+  box-shadow: 0 0 80px rgba(1, 1, 1, 0.3);
+  /* For IE 8 */
+  -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=2, Direction=135, Color='#777777')";
+/* /\* For IE 5.5 - 7 *\/ */
+/* filter: progid:DXImageTransform.Microsoft.Shadow(Strength=2, Direction=135, Color='#777777 */
 }
 
 .small-greybox {
     background: #F0F0F0;
-   /* -webkit-border-radius: 12px;
-    -moz-border-radius: 12px;
-    -o-border-radius: 12px;
-    border-radius: 12px;*/
     -moz-box-shadow: 0 0 2px #777;
 	-webkit-box-shadow: 0 0 2px #777;
 	box-shadow: 0 0 2px #777;
@@ -565,7 +331,7 @@ border-radius: 24px;*/padding:10px;
 }
 
 input[type=submit] {
-    background: #39B54A url(../img/buttonbgdark.png) repeat-x 0px 50%;
+    background-color: #39B54A;
     -webkit-border-radius: 6px 6px;
     -moz-border-radius: 6px 6px;
     -o-border-radius: 6px 6px;
@@ -586,14 +352,14 @@ input[type=submit] {
 }
 
 .graybutton {	
-	background: #BBB url(../img/buttonbgdark.png) repeat-x 0px 50%;
+	background-color: #BBB;
 	border-color: #BBB;
 	float:left;
 }
 
 
 input.graybutton {
-	background: #BBB url(../img/buttonbgdark.png) repeat-x 0px 50%;
+	background-color: #BBB;
 	border-color: #BBB;
 	float:left;
 	 -webkit-border-radius: 6px 6px;
@@ -644,7 +410,7 @@ pre {
     background-color: #F0F0F0;
     color: green;
     padding:5px 5px 5px 26px;
-    background:#F0F0F0 url(../img/icons/ticked.png) no-repeat 5px 4px;
+    background-color:#F0F0F0;
 }
 
 .active::before,
@@ -657,7 +423,7 @@ pre {
 .warning{
     color: red;
     padding:5px 5px 5px 26px;
-    background:yellow url(../img/icons/attention_red.png) no-repeat 12px center;
+    background-color:yellow;
 
 }
 
@@ -665,7 +431,7 @@ pre {
     color: yellow;
     font-weight: bold;
     padding:5px 5px 5px 26px;
-    background:red url(../img/icons/attention_yellow.png) no-repeat 12px center;
+    background-color:red;
 }
 
 .warning::before, 
@@ -712,7 +478,7 @@ pre {
 }
 
 .pending {
-    background: #FDEB02 url(../img/icons/attention_red.png) no-repeat right	center;
+    background-color: #FDEB02;
     -webkit-border-radius: 12px;
     -moz-border-radius: 12px;
     -o-border-radius: 12px;
@@ -730,62 +496,6 @@ pre {
 	padding: 5px 15px 5px 10px;
 }
 
-.overdue {
-	 background: #FA3C44 url(../img/icons/attention_yellow.png) no-repeat right	center;
-    -webkit-border-radius: 12px;
-    -moz-border-radius: 12px;
-    -o-border-radius: 12px;
-    border-radius: 12px;
-    padding: 5px 20px 5px 10px;
-    color:#FDEB02;
-
-}
-
-.overdue a {
-    color:#FDEB02;	
-}
-
-.inbox{
-    margin: 5px;
-}
-
-.inbox li{
-    list-style:none;
-    vertical-align:middle;
-    margin: 12px 10px;
-    background: url(../img/message.png) no-repeat  0 0px;  
-    background-position: right top;
-    line-height:14px; 
-    border-bottom:1px dotted #e3e3e3;
-    padding:2px 0;
- 
-}
-
-.inbox li.new{
-    font-weight: bold;
-    /*background: url(../img/message.png) no-repeat  0 -14px;   */
-    background-position: right -18px;
-   
-}
-
-
-#messages-home .inbox li {
-	margin:0 0;
-	line-height:1.5em;
-	/*font-size: 12px;	*/
-	/*width:160px;*/
-	background:none;
-
-}
-#messages-home .inbox li.new::after {
-   /* content: "…";*/
- }
-
-
-#inbox_nav {
-	height:24px;
-	padding: 0 10px;	
-}
 
 .right {
 	float:right;	
@@ -804,126 +514,7 @@ pre {
 	min-height:220px;	
 }
 
-/*PRICES*/
-.pricelist h4{
-	margin:0;	
-}
 
-.pricelist li {
-    list-style:none;
-    font-size:13px;
-    color:#777;	
-    line-height:1.8em;	
-}
-.discreet {
-	color:#AAA;
-	font-size:10px;
-	font-style:italic;	
-	margin-top:8px;
-}
-
-/*USERFUNCTIONS UND */
-/*DROPDOWN SERVICES*/
-#dropdownServices {
-	width:30px;
-	float:right;
-	background:#38A7D1;
-	margin:0 0 0 0;	
-	position:relative;
-	top:10px;
-	/*height:30px;*/
-	height:0;
-
-
-}
-
-#dropdownServices .dijitStretch {
-	display:none;
-	visibility:hidden;	
-}
-
-
-#dropdownServices  div.dijitArrowButtonInner {
-	background:url(../img/icons/cogwheel.png)no-repeat 6px 7px;
-	width:30px;
-	padding:0;
-	height:30px;
-	/*padding-bottom:10px;	*/
-	margin:0 0;
-}
-/*HOVER ON SERVICES ICON*/
-.tundra #dropdownServices .dijitComboButton .dijitDownArrowButton,
-.tundra #dropdownServices .dijitComboButton .dijitDownArrowButtonHover {
-	padding:0px;	
-	padding-rigth:0;
-}
-
-#dijit_form_ComboButton_0_dropdown #dijit_Menu_0 {
-	position:relative;
-	left:-190px;
-	width:220px!important;	
-}
-
-#dijit_Menu_0 td {
-	width:0;
-}
-
-#dropdownUserFunctions {
-	/*width:100%;*/
-	width:189px;
-	position:relative;
-	top:40px;
-	border:0px none;
-	border-right:1px solid #9FD8EB;
-}
-
-#dropdownServices .dijitComboButton, 
-#dropdownUserFunctions .dijitDropDownButton  {
-	width:100%;
-	background:#38A7D1;
-	margin:0 0 0 0;
-}
-
-#dropdownUserFunctions span.dijitButtonNode {
-	color:#efefef;
-	padding:0 0 0 0;
-	margin:0 0 0 0;
-	width:100%;
-	text-align:left;
-}
-
-
-
-.tundra #dropdownServices  .dijitButtonHover .dijitButtonNode,
-.tundra #dropdownServices  .dijitButtonNodeHover,
-.tundra #dropdownServices .dijitToggleButtonHover .dijitButtonNode,
-.tundra #dropdownServices  .dijitDropDownButtonHover .dijitButtonNode,
-.tundra #dropdownServices .dijitComboButton .dijitButtonContentsHover,
-.tundra #dropdownServices  .dijitComboButton .dijitDownArrowButtonHover {
-	border-color: inherit;
-	border-bottom-color:inherit;
-	color:#FFF;
-	background-color: #2794c5;
-	background-image:inherit;
-	background:none #2794c5;
-}
-
-.tundra #dropdownServices  .dijitMenuPassive .dijitMenuItemHover,
-.tundra #dropdownServices .dijitMenuItemSelected {
-
-	color:#777;
-}
-
-.tundra #dropdownUserFunctions span.dijitButtonNodeHover,
-.tundra #dropdownUserFunctions span.dijitToggleButtonHover .dijitButtonNode,
-.tundra #dropdownUserFunctions span.dijitDropDownButtonHover .dijitButtonNode,
-.tundra #dropdownUserFunctions span.dijitComboButton .dijitButtonContentsHover,
-.tundra #dropdownUserFunctions span.dijitComboButton .dijitDownArrowButtonHover {
-
-	color:#FFFFFF;
-	background-color:#2794C5;
-	background-image:none;
-}
 
 
 #userFunctionsButton  {
@@ -952,23 +543,5 @@ pre {
 }
 #dijit_Menu_1 {
 	width:220px;	
-}
-
-.tundra .dijitMenu, 
-.tundra .dijitMenuBar {
-    background-color: #CAEBF5;
-    border-width: 0 0 0px 0;
-    border-bottom-color:#38A7D1;
-    margin: 0;
-    padding: 0;
-}
-.tundra .dijitMenuItem {
-	line-height:30px;	
-	color:#777;
-	font-family:inherit;
-}
-.tundra .dijitMenuPassive .dijitMenuItemHover,
-.tundra .dijitMenuItemSelected {
-	background-color:#9FD8EB;	
 }
 
