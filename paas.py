@@ -78,10 +78,6 @@ def signup():
     user = User()
     form.populate_obj(user)
     passwd = form.password.data # un-encrypted
-
-    if server.user_check(user.username):
-        flash(u"Desværre - det brugernavn er ikke ledigt", 'error')
-        return render_template('signup.html', form=form)
     
     if not user.email in ALLOWED_EMAILS and not user.email.split('@')[1] in ALLOWED_DOMAINS:
         flash(u"Desværre - kun mail adresser fra Egå gymnasium er understøttet", 'error')

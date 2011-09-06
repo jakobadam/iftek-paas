@@ -18,6 +18,7 @@ from flaskext.wtf.html5 import EmailField
 
 from wtforms.validators import ValidationError
 
+import server
 
 class UserForm(Form):
 
@@ -29,7 +30,7 @@ class UserForm(Form):
     username = TextField('Brugernavn',
                          [
             Required(u'Kammerat, du skal vælge et brugernavn!'),
-            Regexp(r'^[a-zA-Z]+$', message=u'Brugernavnet skal bestå af bogstaver!')
+            Regexp(r'^[a-z]+$', message=u'Brugernavnet skal bestå af små bogstaver!')
             ])
 
     password = PasswordField('Kodeord', [Required('Du mangler at indtaste et kodeord')],)
@@ -42,6 +43,13 @@ class UserForm(Form):
         if q.filter_by(email=field.data).first():
             raise ValidationError("E-mail adressen findes allerede. "
                                   "Angiv en anden.")
+
+    def validate_username(self, field):
+        q = models.db.session.query(models.User.username)
+        if q.filter_by(username=field.data).first():
+            raise ValidationError(u"Desværre - det brugernavn er ikke ledigt")
+        if server.user_check(field.data):
+            raise ValidationError(u"Desværre - det brugernavn er ikke ledigt")
 
     def validate_password(self, field):
         """Ensure the strength of the password.
