@@ -20,7 +20,7 @@ app.config['SITE_ROOT'] = site_root
 
 if app.config['MODE'] == 'production':
     mail_handler = SMTPHandler(app.config.get('EMAIL_SERVER'),
-                               'control-server-error@iftek.dk',
+                               'iftek-paas-error@iftek.dk',
                                app.config['ADMINS'], 'skyen.iftek.dk failed')
     mail_handler.setLevel(logging.ERROR)
     logging.getLogger().addHandler(mail_handler)
