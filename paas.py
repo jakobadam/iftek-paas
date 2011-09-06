@@ -137,11 +137,9 @@ def verify():
         pass
 
     token_key = request.args.get('token')
-    token = ValidationTokens.query.filter_by(token=token_key) or abort(400)
-    token = token[0]
-    
-    response = redirect(request.script_root)
+    token = ValidationTokens.query.filter_by(token=token_key)
     if token:
+        token = token[0]
         user = token.user
         token.user.status = User.STATUS_ACTIVE
 
@@ -165,7 +163,7 @@ def verify():
     else:
         flash(u"Ups, email verifikationen fejlede. Måske har du allerede " +
               "aktiveret denne konto", 'error')
-    return response
+    return redirect(request.script_root)
 
 @app.route('/reset-password/', methods=['GET', 'POST'])
 def reset_password():
