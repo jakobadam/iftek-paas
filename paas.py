@@ -127,11 +127,6 @@ def login():
 
 @app.route('/verify-email/')
 def verify():
-    try:
-        del session['username']
-    except KeyError:
-        pass
-
     token_key = request.args.get('token')
     token = ValidationTokens.query.filter_by(token=token_key)
     if token:
