@@ -20,7 +20,7 @@
     </div>
   </div>
 </div>
-<div class="grid_3 omega">
+<div class="grid_3">
 	<div class="greyborder ">
         <p>Iftek-skyen er din mulighed for at gøre dine web-applikationer
         tilgængelige for hele verden.</p>
@@ -34,5 +34,15 @@
         <p><em>Bemærk: Skyen er i første omgang kun tilgængelig for elever på Egå Gymnasium. </em></p>
 	</div>
 
+</div>
+<div class="grid_3 omega ">
+    <div class="greyborder">
+    <h3>Brugere</h3>
+    <p>
+    {% for u in users %}
+        <a href="http://skyen.iftek.dk/~{{u.username}}">{{u.username}}</a>
+    {% endfor%}        
+    </p>
+    </div>
 </div>
 {% endblock %}

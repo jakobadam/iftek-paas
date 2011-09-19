@@ -110,10 +110,11 @@ def login():
     if g.user:
         return redirect('/')
     form = forms.login.LoginForm(request.form)
-
+    users = User.query.all()
     if not form.validate_on_submit():
         logging.info('login form did not validate: %s' % form.errors)
         return render_template('login.html', 
+                               users=users,
                                form=form,
                                signuplink=url_for('signup', service_id='servers'))
     else:
