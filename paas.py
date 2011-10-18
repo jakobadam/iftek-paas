@@ -29,7 +29,7 @@ PASSWORD_RECOVERY_VALIDITY = datetime.timedelta(days=2)
 DEBUG = config.get('DEBUG')
 
 ALLOWED_EMAILS = ['jakob.a.dam@gmail.com', 'jmahle4u@gmail.com']
-ALLOWED_DOMAINS = ['cs.au.dk', 'egaa-gym.dk', 'cabo.dk']
+ALLOWED_DOMAINS = ['cs.au.dk', 'egaa-gym.dk', 'cabo.dk', 'niels.brock.dk']
 
 @app.before_request
 def before_request():
