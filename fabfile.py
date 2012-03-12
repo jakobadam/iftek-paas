@@ -49,11 +49,17 @@ def setup_webserver():
         "python-setuptools "
         "libmysqlclient-dev "
         "php5 "
+        "php5-dev "
+        "php5-curl "
         "phpmyadmin "
         "git-core "
         )
+    # pecl install pecl_http
+
     run("a2enmod userdir php5")
     run("mkdir -p /etc/skel/public_html")
+    run("mkdir -p /etc/skel/public_html/blog")
+    run("mkdir -p /etc/skel/public_html/lectio")
     
 def setup_app():
     run("mkdir -p %(root)s/app" % env)
@@ -74,6 +80,7 @@ def setup_app():
     virtualenv("%(root)s/env/bin/pip install -U pip" % env)
 
     # php in userdir.
+    # FIXME: disallow indexes for db dir in lectio ...
     run("cp %(root)s/app/conf/php5.conf /etc/apache2/mods-available" % env)
 
     run("cp %(root)s/app/conf/iftek /etc/apache2/sites-available" % env)
