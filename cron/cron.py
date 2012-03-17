@@ -11,7 +11,10 @@ import mail
 today = date.today()
 now = datetime.now()
 
-jobs = Job.query.filter(Job.last_run < today).filter(Job.hour >= now.hour).all()
+jobs = Job.query\
+    .filter(Job.hour <= now.hour)\
+    .filter((Job.last_run < today ) | (Job.last_run == None))\
+    .all()
 
 for j in jobs:
     try:
