@@ -1,0 +1,4 @@
+# m h  dom mon dow   command
+MAILTO=jakob@cabo.dk
+
+@hourly /srv/www/iftek-paas/app/cron/cron.sh 

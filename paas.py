@@ -11,16 +11,19 @@ import urllib
 import sqlalchemy
 from flask import request, render_template, redirect, flash, abort, Response, session, url_for, g
 
-import forms.login
-import forms.user
+from decorators import login_required
+
 import mail
 
+from forms.login import LoginForm
+from forms.job import JobForm
+from forms.user import UserForm
 import server
 
 from app import app
 config = app.config
 
-from models import User, ValidationTokens, db
+from models import User, ValidationTokens, Job, db
 
 import context_processors 
 context_processors.add() # injects users
@@ -70,7 +73,7 @@ def logout():
 
 @app.route('/signup/', methods=['GET', 'POST'])
 def signup():
-    form = forms.user.UserForm(request.form)
+    form = UserForm(request.form)
     
     if not form.validate_on_submit():
         return render_template('signup.html', form=form)
@@ -109,14 +112,17 @@ Ses snart i skyen!""")
 def login():
     if g.user:
         return redirect('/')
-    form = forms.login.LoginForm(request.form)
+
+    form = LoginForm(request.form)
     users = User.query.all()
+    print 'before validate'
     if not form.validate_on_submit():
+        print 'did not validate'
         logging.info('login form did not validate: %s' % form.errors)
         return render_template('login.html', 
                                users=users,
                                form=form,
-                               signuplink=url_for('signup', service_id='servers'))
+                               signuplink=url_for('signup'))
     else:
         email = form.email.data
         session['username'] = email
@@ -238,6 +244,30 @@ def flash_message():
     if message or error:
         return redirect(url_for(flash_message.__name__))
     return render_template('flash_message.html')
+
+@app.route('/jobs/', methods=['GET', 'POST'])
+@login_required
+def jobs():
+    form = JobForm(request.form)
+    if form.validate_on_submit():
+        job = Job(user=g.user)
+        form.populate_obj(job)
+        db.session.add(job)
+        db.session.commit()
+        flash('Nyt job oprettet')
+        return redirect(url_for('jobs'))
+    return render_template('jobs.html', jobs=g.user.jobs.all(), form=form)
+
+@app.route('/jobs/<id>/delete/', methods=['GET', 'POST'])
+@login_required
+def delete_job(id):
+    job = Job.query.get_or_404(id)
+    if job.user != g.user:
+        return abort(404)
+    db.session.delete(job)
+    db.session.commit()
+    flash('Job slettet!')
+    return redirect(url_for('jobs'))
 
 if __name__ == '__main__':
     db.create_all()

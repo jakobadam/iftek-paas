@@ -3,12 +3,6 @@ from functools import wraps
 from flask import g
 from flask import redirect
 from flask import request
-from flask import url_for
-from flask import flash
-
-############
-# decorators
-############
 
 def login_required(f):
     @wraps(f)

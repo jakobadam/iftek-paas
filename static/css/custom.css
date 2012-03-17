@@ -444,36 +444,36 @@ pre {
     width: 100%;
 }
 
-#invoices {
+#jobs {
     width: 100%;
 }
 
 
-#invoices td,
-#invoices th{
+#jobs td,
+#jobs th{
     padding: 10px 10px 10px 10px;
 }
 
-#invoices tr th {
+#jobs tr th {
     background-color: #F0F0F0;
     font-weight: bold;
 }
 
-#invoices tr th:first-child {
+#jobs tr th:first-child {
     -webkit-border-radius: 12px 0 0 12px;
     -moz-border-radius: 12px 0 0 12px;
     -o-border-radius: 12px 0 0 12px;
     border-radius: 12px 0 0 12px;
 }
 
-#invoices tr th:last-child {
+#jobs tr th:last-child {
     -webkit-border-radius: 0 12px 12px 0;
     -moz-border-radius: 0 12px 12px 0;
     -o-border-radius: 0 12px 12px 0;
     border-radius: 0 12px 12px 0;
 }
 
-#invoices tr td {
+#jobs tr td {
 	border-bottom:1px dotted #e3e3e3;	
 }
 

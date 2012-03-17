@@ -36,6 +36,13 @@ def log():
     run("tail -f /var/log/apache2/access.log")
     run("aptitude -y install ")
 
+def setup_cron():
+    with cd('%(root)s/app/cron' % env):
+        # ignore if current crontab is not present
+        with settings(warn_only=True):
+            sudo('crontab -l > cron.bac')
+        sudo('crontab crontab')
+
 def setup_webserver():
     run("aptitude -y install "
         "apache2 "
@@ -94,5 +101,6 @@ def setup():
     run("aptitude update")
     setup_webserver()
     setup_app()
+    setup_cron()
     deploy()
 

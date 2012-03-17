@@ -1,0 +1,35 @@
+{% extends 'base.html'%}
+{% block title %}Skyen Jobs{% endblock %}
+{% block description %}{% endblock%}
+{% block body %}
+{% from "_formhelpers.html" import render_fields %}
+  <h3>Skyen Jobs</h3>
+  <div class="greybox clearfix">
+      <h3>Opret nyt job</h3>
+      <form method="post">
+      {{ render_fields(form) }}
+      </form>
+  </div>
+
+  <div class="greybox clearfix" style="margin-top:30px">
+      {% if jobs %}
+      <table id="jobs">
+          <tr>
+              <th>URL</th>
+              <th>Kører kl.:</th>
+              <th>Sidste kørsel</th>
+          </tr>
+          {% for j in jobs %}
+          <tr>
+              <td><a href="{{j.url}}">{{j.url}}</a></td>
+              <td>{{j.hour}}</td>
+              <td>{% if j.last_run%}{{j.last_run}}{%else%}aldrig{%endif%}</td>
+              <td><form method="post" action="/jobs/{{j.id}}/delete/"><button>slet</button></form></td>
+          </tr>
+          {% endfor %}
+      </table>
+      {% else %}
+      <h3>Ingen jobs endnu!</h3>
+      {% endif %}
+  </div>
+{% endblock %}

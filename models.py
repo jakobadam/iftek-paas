@@ -148,3 +148,15 @@ class ValidationTokens(db.Model, Model):
 
     def __unicode__(self):
         return self.token.decode('ascii')
+
+class Job(db.Model, Model):
+
+    __tablename__ = u'jobs'
+
+    url = Column(String(100), nullable=False)
+    hour = Column(Integer, nullable=False)
+    last_run = Column(DateTime)
+
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False, )
+    user = db.relationship('User', backref=db.backref('jobs', lazy='dynamic'))
+
