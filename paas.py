@@ -115,9 +115,7 @@ def login():
 
     form = LoginForm(request.form)
     users = User.query.all()
-    print 'before validate'
     if not form.validate_on_submit():
-        print 'did not validate'
         logging.info('login form did not validate: %s' % form.errors)
         return render_template('login.html', 
                                users=users,
