@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import sys
 import os
@@ -21,11 +22,13 @@ jobs = Job.query\
     .filter((Job.last_run < today ) | (Job.last_run == None))\
     .all()
 
+print 'jobs', jobs
+
 for j in jobs:
     try:
-        urllib2.urlopen(j.url).read()
         j.last_run = now
         db.session.add(j)
+        urllib2.urlopen(j.url).read()
     except Exception, e:
         mail.send(receivers=[j.user.email], subject=u'Fejl ved kørsel af job', text=str(e))
 
