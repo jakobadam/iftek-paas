@@ -24,7 +24,7 @@
               <td><a href="{{j.url}}">{{j.url|truncate}}</a></td>
               <td>{{j.hour}}</td>
               <td>{% if j.last_run%}{{j.last_run}}{%else%}aldrig{%endif%}</td>
-              <td><form method="post" action="/jobs/{{j.id}}/delete/"><button>slet</button></form></td>
+              <td><form method="post" action="{{url_for('delete_job', id=j.id)}}"><button>slet</button></form></td>
           </tr>
           {% endfor %}
       </table>
