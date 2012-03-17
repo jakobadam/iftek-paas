@@ -34,6 +34,12 @@ DEBUG = config.get('DEBUG')
 ALLOWED_EMAILS = ['jakob.a.dam@gmail.com', 'jmahle4u@gmail.com']
 ALLOWED_DOMAINS = ['cs.au.dk', 'egaa-gym.dk', 'cabo.dk', 'niels.brock.dk']
 
+@app.template_filter('truncate')
+def truncate_filter(value, length=50):
+    if len(value) > length:
+        return value[:length] + '...'
+    return value
+
 @app.before_request
 def before_request():
     """Populates the global g object with the user if session['username'] is there"""

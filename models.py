@@ -157,6 +157,6 @@ class Job(db.Model, Model):
     hour = Column(Integer, nullable=False)
     last_run = Column(DateTime)
 
-    user_id = Column(Integer, ForeignKey('users.id'), nullable=False, )
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('jobs', lazy='dynamic'))
 

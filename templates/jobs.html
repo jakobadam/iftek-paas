@@ -21,7 +21,7 @@
           </tr>
           {% for j in jobs %}
           <tr>
-              <td><a href="{{j.url}}">{{j.url}}</a></td>
+              <td><a href="{{j.url}}">{{j.url|truncate}}</a></td>
               <td>{{j.hour}}</td>
               <td>{% if j.last_run%}{{j.last_run}}{%else%}aldrig{%endif%}</td>
               <td><form method="post" action="/jobs/{{j.id}}/delete/"><button>slet</button></form></td>
