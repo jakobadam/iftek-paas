@@ -1,11 +1,16 @@
 # -*- coding: utf-8 -*-
+import sys
+import os
+import urllib2
 
 from datetime import date
 from datetime import datetime
 
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+
 import paas
-from models import Job, db
-import urllib2
+from models import Job
+from models import db
 import mail
 
 today = date.today()
