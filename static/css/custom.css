@@ -191,6 +191,7 @@ time{
 #wrapper{
     background-color: #FFF;
     padding-top:10px;
+    padding-bottom:120px;
 }
 
 .form-errors {
