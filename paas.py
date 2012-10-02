@@ -32,7 +32,7 @@ PASSWORD_RECOVERY_VALIDITY = datetime.timedelta(days=2)
 DEBUG = config.get('DEBUG')
 
 ALLOWED_EMAILS = ['jakob.a.dam@gmail.com', 'jmahle4u@gmail.com']
-ALLOWED_DOMAINS = ['cs.au.dk', 'egaa-gym.dk', 'cabo.dk', 'niels.brock.dk']
+ALLOWED_DOMAINS = ['cs.au.dk', 'egaa-gym.dk', 'cabo.dk', 'niels.brock.dk', 'eg-gym.dk']
 
 @app.template_filter('truncate')
 def truncate_filter(value, length=50):
@@ -89,7 +89,7 @@ def signup():
     passwd = form.password.data # un-encrypted
     
     if not user.email in ALLOWED_EMAILS and not user.email.split('@')[1] in ALLOWED_DOMAINS:
-        flash(u"Desværre - kun mail adresser fra Egå gymnasium er understøttet", 'error')
+        flash(u"Desværre - du skal have en email fra et godkendt uddannelsessted", 'error')
         return render_template('signup.html', form=form)
 
     token = ValidationTokens(user=user, 
