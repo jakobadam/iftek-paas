@@ -25,14 +25,14 @@ config = app.config
 
 from models import User, ValidationTokens, Job, db
 
-import context_processors 
+import context_processors
 context_processors.add() # injects users
 
 PASSWORD_RECOVERY_VALIDITY = datetime.timedelta(days=2)
 DEBUG = config.get('DEBUG')
 
 ALLOWED_EMAILS = ['jakob.a.dam@gmail.com', 'jmahle4u@gmail.com']
-ALLOWED_DOMAINS = ['cs.au.dk', 'egaa-gym.dk', 'cabo.dk', 'niels.brock.dk', 'eg-gym.dk', 'kggym.dk', 'orellana.dk', 'vordingborg-gym.dk']
+ALLOWED_DOMAINS = ['cs.au.dk', 'egaa-gym.dk', 'cabo.dk', 'niels.brock.dk', 'eg-gym.dk', 'kggym.dk', 'orellana.dk', 'vordingborg-gym.dk', 'horsenshfogvuc.dk']
 
 @app.template_filter('truncate')
 def truncate_filter(value, length=50):
@@ -80,19 +80,19 @@ def logout():
 @app.route('/signup/', methods=['GET', 'POST'])
 def signup():
     form = UserForm(request.form)
-    
+
     if not form.validate_on_submit():
         return render_template('signup.html', form=form)
 
     user = User()
     form.populate_obj(user)
     passwd = form.password.data # un-encrypted
-    
+
     if not user.email in ALLOWED_EMAILS and not user.email.split('@')[1] in ALLOWED_DOMAINS:
         flash(u"Desværre - du skal have en email fra et godkendt uddannelsessted", 'error')
         return render_template('signup.html', form=form)
 
-    token = ValidationTokens(user=user, 
+    token = ValidationTokens(user=user,
                              type=ValidationTokens.CREATE_USER,
                              password=passwd)
 
@@ -100,12 +100,12 @@ def signup():
     db.session.add(token)
 
     db.session.commit()
-    
+
     link = '%s?token=%s' % (url_for(verify.__name__, _external=True), token.token)
     msg = render_template('email_verification.txt', user=user, link=link)
 
-    mail.send(receivers=[u'%s <%s>' % (user.username, user.email)], 
-              subject=u'Bekræft din email adresse til Iftek-skyen', 
+    mail.send(receivers=[u'%s <%s>' % (user.username, user.email)],
+              subject=u'Bekræft din email adresse til Iftek-skyen',
               text=msg)
 
     flash(u"""Fedt, du er blevet oprettet!<br /><br />
@@ -123,7 +123,7 @@ def login():
     users = User.query.all()
     if not form.validate_on_submit():
         logging.info('login form did not validate: %s' % form.errors)
-        return render_template('login.html', 
+        return render_template('login.html',
                                users=users,
                                form=form,
                                signuplink=url_for('signup'))
@@ -139,32 +139,48 @@ def login():
 @app.route('/verify-email/')
 def verify():
     token_key = request.args.get('token')
-    token = ValidationTokens.query.filter_by(token=token_key)
-    if token:
-        token = token[0]
-        user = token.user
-        token.user.status = User.STATUS_ACTIVE
+    token = None
+    try:
+        token = ValidationTokens.query.filter_by(token=token_key).one()
+    except sqlalchemy.orm.exc.NoResultFound:
+        RE_HEX = '^[0-9a-fA-F]+$'
+        import re
 
-        db.session.add(user)
+        link = '%s?token=%s' % (url_for(verify.__name__, _external=True), '...')
 
-        server.user_create( user.username, passwd=token.password)
-        dbname = "%s.%s" % (user.username, 'blog')
-    
-        server.db_create_user(user.username, token.password)
-        server.db_create_database(dbname, user.username)
+        if token_key == None:
+            flash(u"Tjek dit link. Du mangler dit token. Vi forventer et link der ligner:<br> " + link, 'error')
 
-        sql = render_template('sql/blog.sql')
-        server.db_execute(dbname, user.username, token.password, sql)
+        elif re.match(RE_HEX, token_key) == None:
+            flash(u"Tjek dit link. Dit token er i et forkert format. Du forsøgte med token: %s" % token_key, 'error')
 
-        db.session.delete(token)
-        db.session.commit()
+        else:
+            flash(u"Ups, email verifikationen fejlede. Måske har du allerede " +
+                  "aktiveret denne konto.", 'error')
 
-        session['username'] = user.email
+        return redirect(request.script_root, 302)
 
-        flash("Sejt, din konto er nu aktiveret.")
-    else:
-        flash(u"Ups, email verifikationen fejlede. Måske har du allerede " +
-              "aktiveret denne konto", 'error')
+    user = token.user
+    token.user.status = User.STATUS_ACTIVE
+
+    db.session.add(user)
+
+    server.user_create( user.username, passwd=token.password)
+    dbname = "%s.%s" % (user.username, 'blog')
+
+    server.db_create_user(user.username, token.password)
+    server.db_create_database(dbname, user.username)
+
+    sql = render_template('sql/blog.sql')
+    server.db_execute(dbname, user.username, token.password, sql)
+
+    db.session.delete(token)
+    db.session.commit()
+
+    session['username'] = user.email
+
+    flash("Sejt, din konto er nu aktiveret.")
+
     return redirect(request.script_root)
 
 @app.route('/reset-password/', methods=['GET', 'POST'])
