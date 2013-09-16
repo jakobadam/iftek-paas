@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 USER=$1
-PASSWORD="foobar"
+read -s -p "Enter MySQL Password: " PASSWORD
 userdel -r $1
 sql="DROP USER $USER; DROP DATABASE \`$USER.blog\`;"
 echo $sql | mysql -u root --password="$PASSWORD"
