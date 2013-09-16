@@ -4,34 +4,20 @@
 # Copyright (c) 2011, Cabo Communications A/S
 # All rights reserved.
 #
-import logging
-
 from sqlalchemy import Column
 from sqlalchemy import String
 from sqlalchemy import Boolean
-from sqlalchemy import Text
 from sqlalchemy import Enum
 from sqlalchemy import Integer
 from sqlalchemy import ForeignKey
-from sqlalchemy import CHAR
 from sqlalchemy.orm import relationship
-from sqlalchemy.orm import backref
-from sqlalchemy.sql.expression import desc
-# from sqlalchemy import UniqueConstraint
-# from flaskext.sqlalchemy import models_committed
-from random import sample
-from random import randrange
 
-from sqlalchemy import DateTime, Date
+from sqlalchemy import DateTime
 from sqlalchemy import func
-
-from datetime import date
-from datetime import timedelta
-from datetime import datetime
 
 import uuid
 
-from flaskext.sqlalchemy import SQLAlchemy
+from flask.ext.sqlalchemy import SQLAlchemy
 from flask import url_for
 
 from app import app
@@ -51,7 +37,7 @@ class Model(object):
 
     def __init__(self, **kwargs):
         [setattr(self, k, v) for k,v in kwargs.iteritems()]
-        
+
     def put(self):
         db.session.add(self)
         db.session.commit()
@@ -132,13 +118,27 @@ class User(db.Model, Auth):
     def is_admin(self):
         return self.email in app.config.get('ADMINS')
 
+    @classmethod
+    def useradd(cls, username, password):
+        import server
+        from flask import render_template
+
+        server.user_create( username, passwd=password)
+        dbname = "%s.%s" % (username, 'blog')
+
+        server.db_create_user(username, password)
+        server.db_create_database(dbname, username)
+
+        sql = render_template('sql/blog.sql')
+        server.db_execute(dbname, username, password, sql)
+
 class ValidationTokens(db.Model, Model):
 
     __tablename__ = u'validation_tokens'
 
     CREATE_USER = 'create_user'
     RESET_PASSWORD = 'password_reset'
-    
+
     TYPES = (CREATE_USER, RESET_PASSWORD)
 
     token = Column(String(32), nullable=False, default=lambda: uuid.uuid4().hex)
@@ -159,4 +159,3 @@ class Job(db.Model, Model):
 
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('jobs', lazy='dynamic'))
-
