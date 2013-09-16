@@ -23,6 +23,14 @@ Install control project dependencies::
 
     (iftek)$ pip install -r conf/requirements_dev.txt
 
+Create database
+
+    $ ./createdb.sh
+
+Create tables
+
+    $ ./syncdb.py
+
 Deployment
 ----------
 Iftek PaaS uses fabric to manage deployment. Specify the hostname of your
@@ -35,9 +43,16 @@ checkout the app to the server.
 
 Running a local web server
 --------------------------
-In development you should run:
+The iftek paas need root rights in order to check / create linux
+users. Because of the virtualenv you should run it like:
 
-    (iftek)$ python paas.py
+    $ sudo ~/.virtualenvs/paas/local/bin/python ./paas.py
+
+Or with the provided script, change the python path in that file so it
+fits your environment:
+
+    $ ./sudo_python paas.py
+
 
 Working in the production environment
 -------------------------------------

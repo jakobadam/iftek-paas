@@ -121,13 +121,8 @@ def login():
 
     form = LoginForm(request.form)
     users = User.query.all()
-    if not form.validate_on_submit():
-        logging.info('login form did not validate: %s' % form.errors)
-        return render_template('login.html',
-                               users=users,
-                               form=form,
-                               signuplink=url_for('signup'))
-    else:
+
+    if form.validate_on_submit():
         email = form.email.data
         session['username'] = email
 
@@ -135,6 +130,12 @@ def login():
 
         flash("Du er nu logget ind!", 'message')
         return response
+    else:
+        logging.info('login form did not validate: %s' % form.errors)
+        return render_template('login.html',
+                               users=users,
+                               form=form,
+                               signuplink=url_for('signup'))
 
 @app.route('/verify-email/')
 def verify():
@@ -161,19 +162,13 @@ def verify():
         return redirect(request.script_root, 302)
 
     user = token.user
+    password = token.password
+
+    User.useradd(user.username, password)
+
     token.user.status = User.STATUS_ACTIVE
 
     db.session.add(user)
-
-    server.user_create( user.username, passwd=token.password)
-    dbname = "%s.%s" % (user.username, 'blog')
-
-    server.db_create_user(user.username, token.password)
-    server.db_create_database(dbname, user.username)
-
-    sql = render_template('sql/blog.sql')
-    server.db_execute(dbname, user.username, token.password, sql)
-
     db.session.delete(token)
     db.session.commit()
 
