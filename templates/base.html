@@ -8,21 +8,11 @@
     <![endif]--> 
     <meta name="description" content="{% block description %}{% endblock %}" />
 
-    <link href="//static.irigo.com/dojo/1.6.1/dojo/resources/dojo.css" rel="stylesheet" />
-    <link href="//static.irigo.com/dojo/1.6.1/dijit/themes/tundra/tundra.css" rel="stylesheet" />
     <link href="{{request.url_root}}static/css/reset.css?v={{version}}"
           rel="stylesheet" />
     <link href="{{request.url_root}}static/css/960.css?v={{version}}"
           rel="stylesheet" />
 
-    <script src="//static.irigo.com/dojo/1.6.1/dojo/dojo.xd.js"></script>
-        <script type="text/javascript">
-            dojo.require("dijit.form.Button");
-            dojo.require("dijit.Menu");
-            dojo.require("dijit.Dialog");
-            dojo.require("dijit.form.TextBox");
-        </script>
-    
     {% block head %}{% endblock %}
     <link href="{{request.url_root}}static/css/custom.css?v={{version}}"
           rel="stylesheet" />

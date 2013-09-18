@@ -12,16 +12,16 @@ def deploy():
     push()
     update_dependencies()
     reload()
-    
+
 def push():
     "Push out new code to the server."
     with cd("%(root)s/app" % env):
         run("git pull")
-        
+
 def update_dependencies():
     "Update control requirements remotely."
     virtualenv("%(root)s/env/bin/pip install -r %(root)s/app/conf/requirements_prod.txt" % env)
-        
+
 def reload():
     "Reload Apache to pick up new code changes."
     run("invoke-rc.d apache2 reload")
@@ -67,11 +67,15 @@ def setup_webserver():
     run("mkdir -p /etc/skel/public_html")
     run("mkdir -p /etc/skel/public_html/blog")
     run("mkdir -p /etc/skel/public_html/lectio")
+
+def create_env():
+    run("virtualenv %(root)s/env" % env)
+    virtualenv("%(root)s/env/bin/pip install -U pip" % env)
     
 def setup_app():
     run("mkdir -p %(root)s/app" % env)
 
-    # Check out 
+    # Check out
     with cd("%(root)s" % env):
         run("rm -rf app")
         run("git clone git://github.com/jakobadam/iftek-paas.git app")
@@ -80,11 +84,10 @@ def setup_app():
     run("chmod 660 /etc/sudoers")
     run("cat %(root)s/app/conf/sudoers > /etc/sudoers" % env)
     run("chmod 440 /etc/sudoers")
-    
+
     # create python virtualenv
     run("easy_install virtualenv")
-    run("virtualenv %(root)s/env" % env)
-    virtualenv("%(root)s/env/bin/pip install -U pip" % env)
+    create_env()
 
     # php in userdir.
     # FIXME: disallow indexes for db dir in lectio ...
@@ -103,4 +106,3 @@ def setup():
     setup_app()
     setup_cron()
     deploy()
-

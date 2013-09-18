@@ -131,7 +131,6 @@ def login():
         flash("Du er nu logget ind!", 'message')
         return response
     else:
-        logging.info('login form did not validate: %s' % form.errors)
         return render_template('login.html',
                                users=users,
                                form=form,
