@@ -119,6 +119,22 @@ class User(db.Model, Auth):
         return self.email in app.config.get('ADMINS')
 
     @classmethod
+    def userdel(cls, username):
+        import server
+
+        # remove user from server
+        server.user_remove(username)
+
+        # remove user's database
+        sql = "DROP USER %s; DROP DATABASE \`%s.blog\`; DELETE FROM skyen.users WHERE username = '%s';" % (username, username, username)
+        db.engine.execute(sql)
+
+        # remove user from skyen db
+        u = User.query.filter_by(username=username).first()
+        db.session.delete(u)
+        db.session.commit()
+
+    @classmethod
     def useradd(cls, username, password):
         import server
         from flask import render_template
@@ -131,6 +147,18 @@ class User(db.Model, Auth):
 
         sql = render_template('sql/blog.sql')
         server.db_execute(dbname, username, password, sql)
+
+        # set username password in blog
+        config_path = '/home/%s/public_html/blog/conf/config.php' % username
+        config = None
+        with open(config_path, 'r') as f:
+            config = f.read()
+
+        config = config.replace('dit_brugernavn', username)
+        config = config.replace('dit_password', password)
+
+        # with open(config_path,'w') as f:
+        #     f.write(config)
 
 class ValidationTokens(db.Model, Model):
 
