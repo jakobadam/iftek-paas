@@ -283,6 +283,11 @@ def delete_job(id):
     flash('Job slettet!')
     return redirect(url_for('jobs'))
 
+@app.route('/test/', methods=['GET', 'POST'])
+def testrunner():
+    import tests
+    return tests.run()
+
 if __name__ == '__main__':
     db.create_all()
     app.run(host='')

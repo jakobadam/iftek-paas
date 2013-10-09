@@ -17,10 +17,10 @@ def sudo(command):
 
 def db_execute(db, name, passwd, sql):
     sql = sql.replace('`', '\\`')
-    cmd = """echo "%s" | mysql %s -u %s --password=%s""" % (sql, db, name, passwd) 
+    cmd = """echo "%s" | mysql %s -u %s --password=%s""" % (sql, db, name, passwd)
     run(cmd)
 
-# From: https://github.com/sebastien/cuisine/blob/master/src/cuisine.py
+# From: https://github.com/sebastien/cuisine/blob/master/src/cuisine.yp
 
 # FIXME: validate username passwd in form
 
@@ -37,6 +37,14 @@ def db_create_database(dbname, username):
     sql = ''.join(stms)
     db.session.execute(sql)
 
+def user_remove(name, rmhome=None):
+	"""Removes the user with the given name, optionally
+	removing the home directory and mail spool."""
+	options = ["-f"]
+	if rmhome:
+		options.append("-r")
+	sudo("/usr/sbin/userdel %s '%s'" % (" ".join(options), name))
+    
 def user_create( name, passwd=None, home=None, uid=None, gid=None, shell=None, uid_min=None, uid_max=None):
 	"""Creates the user with the given name, optionally giving a specific password/home/uid/gid/shell."""
 	options = ["-m"]
@@ -51,8 +59,8 @@ def user_create( name, passwd=None, home=None, uid=None, gid=None, shell=None, u
 	if gid:  options.append("-g '%s'" % (gid))
 	if shell: options.append("-s '%s'" % (shell))
 	if uid_min:  options.append("-K UID_MIN='%s'" % (uid_min))
-	if uid_max:  options.append("-K UID_MAX='%s'" % (uid_max))
-	sudo("useradd %s '%s'" % (" ".join(options), name))
+	if uid_max:  opitons.append("-K UID_MAX='%s'" % (uid_max))
+	sudo("/usr/sbin/useradd %s '%s'" % (" ".join(options), name))
 
 def user_check( name ):
 	"""Checks if there is a user defined with the given name, returning its information
