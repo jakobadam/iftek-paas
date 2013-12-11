@@ -5,7 +5,6 @@
 # All rights reserved.
 #
 import datetime
-import logging
 import urllib
 
 import sqlalchemy
@@ -18,12 +17,11 @@ import mail
 from forms.login import LoginForm
 from forms.job import JobForm
 from forms.user import UserForm
-import server
 
 from app import app
 config = app.config
 
-from models import User, ValidationTokens, Job, db
+from models import User, ValidationTokens, Job, Whitelist, db
 
 import context_processors
 context_processors.add() # injects users
@@ -88,7 +86,7 @@ def signup():
     form.populate_obj(user)
     passwd = form.password.data # un-encrypted
 
-    if not user.email in ALLOWED_EMAILS and not user.email.split('@')[1] in ALLOWED_DOMAINS:
+    if not Whitelist.allowed(user.email):
         flash(u"Desværre - du skal have en email fra et godkendt uddannelsessted", 'error')
         return render_template('signup.html', form=form)
 

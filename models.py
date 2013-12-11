@@ -91,6 +91,45 @@ class Auth(Model):
         import hashlib
         return hashlib.sha1(salt + raw_password).hexdigest()
 
+class Whitelist(object):
+
+    @classmethod
+    def allowed(cls, email):
+        if EmailWhitelist.allowed(email):
+            return True
+        if DomainWhitelist.allowed(email):
+            return True
+        return False
+
+class DomainWhitelist(db.Model):
+
+    __table_args__ = {'mysql_engine':'InnoDB'}
+    __tablename__ = 'domain_whitelist'
+
+    domain = Column(String(255), primary_key=True)
+
+    @classmethod
+    def allowed(cls, email):
+        domain = email.split('@')[1]
+        u = DomainWhitelist.query.filter_by(domain=domain).first()
+        if u:
+            return True
+        return False
+
+class EmailWhitelist(db.Model):
+
+    __table_args__ = {'mysql_engine':'InnoDB'}
+    __tablename__ = 'email_whitelist'
+
+    email = Column(String(255), primary_key=True)
+
+    @classmethod
+    def allowed(cls, email):
+        u = EmailWhitelist.query.filter_by(email=email).first()
+        if u:
+            return True
+        return False
+
 class User(db.Model, Auth):
 
     __tablename__ = u'users'
@@ -126,13 +165,13 @@ class User(db.Model, Auth):
         server.user_remove(username)
 
         # remove user's database
-        sql = "DROP USER %s; DROP DATABASE \`%s.blog\`; DELETE FROM skyen.users WHERE username = '%s';" % (username, username, username)
+        sql = "DROP USER %s; DROP DATABASE `%s.blog`; DELETE FROM skyen.users WHERE username = '%s';" % (username, username, username)
         db.engine.execute(sql)
 
-        # remove user from skyen db
-        u = User.query.filter_by(username=username).first()
-        db.session.delete(u)
-        db.session.commit()
+        # # remove user from skyen db
+        # u = User.query.filter_by(username=username).first()
+        # db.session.delete(u)
+        # db.session.commit()
 
     @classmethod
     def useradd(cls, username, password):

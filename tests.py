@@ -11,13 +11,34 @@ def run():
 
     def ok():
         result.append(' OK<br>')
-    # test create user
+
 
     try:
         result.append('Test sudo cat')
-        s = server.sudo('cat /tmp/foo')
+        server.sudo('echo "foo" > /tmp/foo')
+        server.sudo('cat /tmp/foo')
         ok()
     except Exception,e:
+        fail(e)
+
+    from models import DomainWhitelist, Whitelist
+
+    try:
+        result.append('Test domain whitelist')
+        d = DomainWhitelist(domain='example.com')
+
+        db.session.add(d)
+        db.session.commit()
+
+        if Whitelist.allowed('jakob@example.com'):
+            ok()
+        else:
+            fail("Wasn't whitelisted")
+
+        db.session.delete(d)
+        db.session.commit()
+
+    except Exception, e:
         fail(e)
 
     try:
