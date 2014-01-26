@@ -54,7 +54,7 @@ def run():
         result.append('Test username replace in config.php')
         with open('/home/foobar/public_html/blog/conf/config.php') as f:
             s = f.read()
-            if 'dit_brugernavn' in s:b
+            if 'dit_brugernavn' in s:
                 fail("not replaced")
             else:
                 ok()
