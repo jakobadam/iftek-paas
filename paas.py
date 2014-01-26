@@ -21,7 +21,7 @@ from forms.user import UserForm
 from app import app
 config = app.config
 
-from models import User, ValidationTokens, Job, Whitelist, db
+from models import User, ValidationTokens, Job, Whitelist, DomainWhitelist, db
 
 import context_processors
 context_processors.add() # injects users
@@ -118,8 +118,8 @@ def login():
         return redirect('/')
 
     form = LoginForm(request.form)
-    users = User.query.all()
-
+    domains = DomainWhitelist.query.all()
+    
     if form.validate_on_submit():
         email = form.email.data
         session['username'] = email
@@ -130,7 +130,7 @@ def login():
         return response
     else:
         return render_template('login.html',
-                               users=users,
+                               domains=domains,
                                form=form,
                                signuplink=url_for('signup'))
 
