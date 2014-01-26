@@ -29,9 +29,6 @@ context_processors.add() # injects users
 PASSWORD_RECOVERY_VALIDITY = datetime.timedelta(days=2)
 DEBUG = config.get('DEBUG')
 
-ALLOWED_EMAILS = ['jakob.a.dam@gmail.com', 'jmahle4u@gmail.com']
-ALLOWED_DOMAINS = ['cs.au.dk', 'egaa-gym.dk', 'cabo.dk', 'niels.brock.dk', 'eg-gym.dk', 'kggym.dk', 'orellana.dk', 'vordingborg-gym.dk', 'horsenshfogvuc.dk']
-
 @app.template_filter('truncate')
 def truncate_filter(value, length=50):
     if len(value) > length:

@@ -19,7 +19,7 @@ else:
 
 app.config['SITE_ROOT'] = site_root
 
-if app.config['MODE'] == 'production':
+if app.config['MODE'] == 'production' and not app.config['DEBUG']:
     mail_handler = SMTPHandler(app.config.get('EMAIL_SERVER'),
                                'iftek-paas-error@iftek.dk',
                                app.config['ADMINS'], 'skyen.iftek.dk failed')

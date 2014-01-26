@@ -190,14 +190,15 @@ class User(db.Model, Auth):
         # set username password in blog
         config_path = '/home/%s/public_html/blog/conf/config.php' % username
         config = None
-        with open(config_path, 'r') as f:
-            config = f.read()
+
+        with open(config_path, 'rb') as f:
+            config = unicode(f.read(), "utf-8")
 
         config = config.replace('dit_brugernavn', username)
         config = config.replace('dit_password', password)
 
-        # with open(config_path,'w') as f:
-        #     f.write(config)
+        with open(config_path,'wb') as f:
+            f.write(config.encode("utf-8"))
 
 class ValidationTokens(db.Model, Model):
 

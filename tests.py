@@ -15,7 +15,6 @@ def run():
 
     try:
         result.append('Test sudo cat')
-        server.sudo('echo "foo" > /tmp/foo')
         server.sudo('cat /tmp/foo')
         ok()
     except Exception,e:
@@ -43,7 +42,7 @@ def run():
 
     try:
         result.append('Test user create')
-        user = User(email='foobar@example.com', username='foobar', password='foobar')
+        user = User(email='jakob@example.com', username='foobar', password=u'foobar') 
         User.useradd('foobar', 'foobar')
         db.session.add(user)
         db.session.commit()
@@ -55,7 +54,7 @@ def run():
         result.append('Test username replace in config.php')
         with open('/home/foobar/public_html/blog/conf/config.php') as f:
             s = f.read()
-            if 'dit_brugernavn' in s:
+            if 'dit_brugernavn' in s:b
                 fail("not replaced")
             else:
                 ok()
