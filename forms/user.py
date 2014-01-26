@@ -21,7 +21,7 @@ class UserForm(Form):
     email = EmailField('E-mail adresse',
                        [Required('Hmm, husk du skal indtaste en E-mail adresse'),
                         Email('Hey, E-mail adressen er ikke gyldig!')],
-                        description='Fra et godkendt uddannelsessted',
+                        description=u'Så vi kan tjekke at du er fra et godkendt uddannelsessted',
                        )
 
     username = TextField('Brugernavn',
