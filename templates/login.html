@@ -38,12 +38,12 @@
 </div>
 <div class="grid_3 omega ">
     <div class="greyborder">
-    <h3>Brugere</h3>
-    <p>
-    {% for u in users %}
-        <a href="http://skyen.iftek.dk/~{{u.username}}">{{u.username}}</a>
+    <h3>Godkendte Uddannelsessteder</h3>
+    <ul>
+    {% for d in domains %}
+      <li><a href="http://{{d}}">{{d}}</a></li>
     {% endfor%}        
-    </p>
+    </ul>
     </div>
 </div>
 {% endblock %}

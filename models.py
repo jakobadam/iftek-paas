@@ -116,6 +116,10 @@ class DomainWhitelist(db.Model):
             return True
         return False
 
+    def __unicode__(self):
+        return self.domain
+    
+
 class EmailWhitelist(db.Model):
 
     __table_args__ = {'mysql_engine':'InnoDB'}

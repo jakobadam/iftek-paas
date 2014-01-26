@@ -1,8 +1,4 @@
 # -*- coding: utf-8 -*-
-#
-# Copyright (c) 2011, Cabo Communications A/S
-# All rights reserved.
-#
 
 import models
 
@@ -24,7 +20,8 @@ class UserForm(Form):
 
     email = EmailField('E-mail adresse',
                        [Required('Hmm, husk du skal indtaste en E-mail adresse'),
-                        Email('Hey, E-mail adressen er ikke gyldig!')]
+                        Email('Hey, E-mail adressen er ikke gyldig!')],
+                        description='Fra et godkendt uddannelsessted',
                        )
 
     username = TextField('Brugernavn',
@@ -64,4 +61,3 @@ class UserForm(Form):
         """
         if self.password.data != field.data:
             raise ValidationError(u"Koder matcher ikke.")
-
