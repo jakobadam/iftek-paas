@@ -118,7 +118,7 @@ class DomainWhitelist(db.Model):
 
     def __unicode__(self):
         return self.domain
-    
+
 
 class EmailWhitelist(db.Model):
 
@@ -159,7 +159,12 @@ class User(db.Model, Auth):
 
     @property
     def is_admin(self):
-        return self.email in app.config.get('ADMINS')
+        return self.email in app.config.get('ADMINS'
+)
+    def set_password(self, password):
+        import server
+        server.db_set_password(self.username, password)
+        server.user_ensure(self.username, passwd=password)
 
     @classmethod
     def userdel(cls, username):
@@ -203,6 +208,8 @@ class User(db.Model, Auth):
 
         with open(config_path,'wb') as f:
             f.write(config.encode("utf-8"))
+
+
 
 class ValidationTokens(db.Model, Model):
 
