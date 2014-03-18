@@ -19,9 +19,9 @@ from .user import check_password_strength
 
 class RequestResetForm(Form):
 
-    email = EmailField('Email',
+    email = EmailField('Indtast din email',
                        [Required('Indtast din email-adresse')],
-                       description='Din email-adresse')
+                       description='Fra dit uddannelsessted')
 
     signup = SubmitField(u'Fortsæt…')
 

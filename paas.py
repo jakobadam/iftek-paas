@@ -126,7 +126,8 @@ def login():
         return render_template('login.html',
                                domains=domains,
                                form=form,
-                               signuplink=url_for('signup'))
+                               reset_password_link=url_for(reset_password.__name__),
+                               signup_link=url_for(signup.__name__))
 
 @app.route('/verify-email/')
 def verify():
