@@ -1,9 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#
-# Copyright (c) 2011, Cabo Communications A/S
-# All rights reserved.
-#
 import datetime
 import urllib
 
@@ -17,6 +13,7 @@ import mail
 from forms.login import LoginForm
 from forms.job import JobForm
 from forms.user import UserForm
+from forms.resetpassword import RequestResetForm, VerifiedResetForm
 
 from app import app
 config = app.config
@@ -116,7 +113,7 @@ def login():
 
     form = LoginForm(request.form)
     domains = DomainWhitelist.query.all()
-    
+
     if form.validate_on_submit():
         email = form.email.data
         session['username'] = email
@@ -192,24 +189,27 @@ def reset_password():
             return redirect(request.script_root, 302)
 
         if token.created + PASSWORD_RECOVERY_VALIDITY < now:
-            flash(u"Beklager, linket er udløbet.",
-                  'error')
+            flash(u"Beklager, linket er udløbet.", 'error')
             return redirect(request.script_root, 302)
 
-        form = forms.resetpassword.VerifiedResetForm(request.form)
+        form = VerifiedResetForm(request.form)
         if form.validate_on_submit():
-            token.user.password = form.password.data
+            password = form.password.data
+            token.user.password = password
+
             db.session.add(token.user)
             db.session.delete(token)
             db.session.commit()
+
+            token.user.set_password(password)
+
             session['username'] = token.user.email
-            flash('Dit kodeord blev nulstillet!')
+            flash('Dit kodeord er blevet opdateret!')
             return redirect('/', 303)
         else:
-            return render_template('reset-password.html',
-                                   form=form)
+            return render_template('reset-password.html', form=form)
 
-    form = forms.resetpassword.RequestResetForm(request.form)
+    form = RequestResetForm(request.form)
     if form.validate_on_submit():
         email = form.email.data
         user = User.query.filter_by(email=email).one()
@@ -227,15 +227,13 @@ def reset_password():
         link = (url_for('reset_password', _external=True) +
                 '?token=' + token.token)
 
-        msg = render_template('reset-password.txt', user=user,
-                              link=link)
+        msg = render_template('reset-password.txt', user=user, link=link)
 
         mail.send(receivers=[u'%s <%s>' % (user.username, user.email)],
-                  subject='Password Reset',
+                  subject='Nyt kodeord',
                   text=msg)
 
-        flash("We've sent a mail to your account! Please click the link " +
-              "in the message to reset your password.")
+        flash(u"Vi har sendt en besked til din email! Klik på linket i beskeden for at nulstille dit kodeord")
 
         return redirect('/')
     else:
@@ -281,7 +279,7 @@ def delete_job(id):
 @app.route('/test/', methods=['GET', 'POST'])
 def testrunner():
     import tests
-    return tests.run()
+    return tests.run_tests()
 
 if __name__ == '__main__':
     db.create_all()

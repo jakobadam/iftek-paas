@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import re
 import models
 
 from flaskext.wtf import TextField
@@ -15,6 +15,17 @@ from flaskext.wtf.html5 import EmailField
 from wtforms.validators import ValidationError
 
 import server
+
+def check_password_strength(password):
+    if len(password) < 8:
+        raise ValidationError(u"Der skal være mindst 8 karakterer.")
+
+    if not re.search(r'[A-Z]', password):
+        raise ValidationError(u"Der skal være mindst et stort bogstav")
+
+    if not re.search(r'[a-z]', password):
+        raise ValidationError(u"Der skal være mindst et lille bogstav")
+
 
 class UserForm(Form):
 
@@ -51,10 +62,7 @@ class UserForm(Form):
     def validate_password(self, field):
         """Ensure the strength of the password.
         """
-        if len(field.data) < 6:
-            raise ValidationError(u"Koden skal være mindst 6 karakterer.")
-        # For an easy strength checker see:
-        # http://passwordadvisor.com/CodePython.aspx
+        check_password_strength(field.data)
 
     def validate_password2(self, field):
         """Ensure the strength of the password.
