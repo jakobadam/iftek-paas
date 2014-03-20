@@ -112,7 +112,7 @@ def user_ensure( name, passwd=None, home=None, uid=None, gid=None, shell=None):
         if shell != None and d.get("shell") != shell:
             options.append("-s '%s'" % (shell))
         if options:
-            sudo("usermod %s '%s'" % (" ".join(options), name))
+            sudo("/usr/sbin/usermod %s '%s'" % (" ".join(options), name))
 
 if __name__ == '__main__':
     db_create_database('dbname', 'jakob')
