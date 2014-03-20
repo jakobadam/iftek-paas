@@ -159,12 +159,13 @@ class User(db.Model, Auth):
 
     @property
     def is_admin(self):
-        return self.email in app.config.get('ADMINS'
-)
+        return self.email in app.config.get('ADMINS')
+
     def set_password(self, password):
         import server
         server.db_set_password(self.username, password)
         server.user_ensure(self.username, passwd=password)
+        User.set_blog_db_password(self.username, password)
 
     @classmethod
     def userdel(cls, username):
@@ -183,6 +184,22 @@ class User(db.Model, Auth):
         # db.session.commit()
 
     @classmethod
+    def set_blog_db_password(cls, username, password):
+        # set username password in blog
+        config_path = '/etc/skel/public_html/blog/conf/config.php'
+        config = None
+
+        with open(config_path, 'rb') as f:
+            config = unicode(f.read(), "utf-8")
+
+        config = config.replace('dit_brugernavn', username)
+        config = config.replace('dit_password', password)
+
+        user_config_path = '/home/%s/public_html/blog/conf/config.php' % username
+        with open(user_config_path,'wb') as f:
+            f.write(config.encode("utf-8"))
+
+    @classmethod
     def useradd(cls, username, password):
         import server
         from flask import render_template
@@ -196,20 +213,7 @@ class User(db.Model, Auth):
         sql = render_template('sql/blog.sql')
         server.db_execute(dbname, username, password, sql)
 
-        # set username password in blog
-        config_path = '/home/%s/public_html/blog/conf/config.php' % username
-        config = None
-
-        with open(config_path, 'rb') as f:
-            config = unicode(f.read(), "utf-8")
-
-        config = config.replace('dit_brugernavn', username)
-        config = config.replace('dit_password', password)
-
-        with open(config_path,'wb') as f:
-            f.write(config.encode("utf-8"))
-
-
+        cls.set_blog_db_password(username, password)
 
 class ValidationTokens(db.Model, Model):
 
