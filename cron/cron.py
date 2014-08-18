@@ -22,8 +22,6 @@ jobs = Job.query\
     .filter((Job.last_run < today ) | (Job.last_run == None))\
     .all()
 
-print 'jobs', jobs
-
 for j in jobs:
     try:
         j.last_run = now
